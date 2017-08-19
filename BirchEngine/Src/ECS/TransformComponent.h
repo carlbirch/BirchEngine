@@ -16,6 +16,8 @@ public:
 
 	int speed = 3;
 
+	bool blocked = false;
+
 	TransformComponent()
 	{
 		position.x = 0.0f;
@@ -51,7 +53,16 @@ public:
 	}
 	void update() override
 	{
-		position.x += velocity.x * speed;
-		position.y += velocity.y * speed;
+		if (!blocked)
+		{
+			position.x += velocity.x * speed;
+			position.y += velocity.y * speed;
+		}
+		else
+		{
+			position.x -= velocity.x * speed;
+			position.y -= velocity.y * speed;
+			blocked = false;
+		}
 	}
 };

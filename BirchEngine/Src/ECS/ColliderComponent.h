@@ -11,6 +11,11 @@ public:
 
 	TransformComponent* transform;
 
+	ColliderComponent()
+	{
+		tag = "";
+	}
+
 	ColliderComponent(std::string t)
 	{
 		tag = t;
