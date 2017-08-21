@@ -53,16 +53,7 @@ public:
 	}
 	void update() override
 	{
-		if (!blocked)
-		{
-			position.x += velocity.x * speed;
-			position.y += velocity.y * speed;
-		}
-		else
-		{
-			position.x -= velocity.x * speed;
-			position.y -= velocity.y * speed;
-			blocked = false;
-		}
+		position.x += velocity.x * speed;
+		position.y += velocity.y * speed;
 	}
 };
