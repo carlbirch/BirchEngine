@@ -2,8 +2,7 @@
 
 Vector2D::Vector2D()
 {
-	x = 0.0f;
-	y = 0.0f;
+	this->Zero();
 }
 
 Vector2D::Vector2D(float x, float y)
@@ -88,6 +87,14 @@ Vector2D& Vector2D::operator*(const int& i)
 {
 	this->x *= i;
 	this->y *= i;
+
+	return *this;
+}
+
+Vector2D& Vector2D::Zero()
+{
+	this->x = 0;
+	this->y = 0;
 
 	return *this;
 }

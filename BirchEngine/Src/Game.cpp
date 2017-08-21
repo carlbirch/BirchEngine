@@ -80,8 +80,8 @@ void Game::update()
 		wall.getComponent<ColliderComponent>().collider))
 	{
 		player.getComponent<TransformComponent>().blocked = true;
-		player.getComponent<TransformComponent>().velocity.x *= -1;
-		player.getComponent<TransformComponent>().velocity.y *= -1;
+		player.getComponent<TransformComponent>().velocity * -1;
+
 		std::cout << "Wall Hit!" << std::endl;
 	}
 
