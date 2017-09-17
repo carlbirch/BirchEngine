@@ -25,6 +25,8 @@ public:
 	static SDL_Event event;
 	static std::vector<ColliderComponent*> colliders;
 
+	static void AddTile(int id, int x, int y);
+
 private:
 	bool isRunning = false;
 	int cnt = 0;
