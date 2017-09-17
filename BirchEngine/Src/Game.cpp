@@ -6,6 +6,7 @@
 #include "Collision.h"
 
 Map* map;
+
 Manager manager;
 
 SDL_Renderer* Game::renderer = nullptr;
@@ -13,9 +14,6 @@ SDL_Event Game::event;
 
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
-
-auto& tile(manager.addEntity());
-auto& tile1(manager.addEntity());
 
 std::vector<ColliderComponent*> Game::colliders;
 
@@ -49,11 +47,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	//ecs implementation
 
-
-	tile.addComponent<TileComponent>(50, 50, 32, 32, 1);
-	tile.addComponent<ColliderComponent>("tile1");
-	tile1.addComponent<TileComponent>(82, 50, 32, 32, 2);
-	tile1.addComponent<ColliderComponent>("tile2");
+	Map::LoadMap("assets/p16x16.map", 16, 16);
 
 	player.addComponent<TransformComponent>(2);
 	player.addComponent<SpriteComponent>("assets/player.png");
@@ -98,7 +92,6 @@ void Game::update()
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-	//map->DrawMap();
 
 	manager.draw();
 	SDL_RenderPresent(renderer);
@@ -109,4 +102,11 @@ void Game::clean()
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
+}
+
+void Game::AddTile(int id, int x, int y)
+{
+	auto& tile(manager.addEntity());
+	tile.addComponent<TileComponent>(x, y, 32, 32, id);
+	tile.addComponent<ColliderComponent>("tile");
 }
