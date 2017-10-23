@@ -18,17 +18,14 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
 	std::fstream mapFile;
 	mapFile.open(path);
 
-	for (int y = 0; y < sizeX; y++)
+	for (int y = 0; y < sizeY; y++)
 	{
 		for (int x = 0; x < sizeX; x++)
 		{
-			if(!mapFile.eof())
-			{
-				mapFile.get(tile);
-				Game::AddTile(atoi(&tile), x * 32, y * 32);
-				mapFile.ignore();
-			}
+			mapFile.get(tile);
+			Game::AddTile(atoi(&tile), x * 32, y * 32);
+			mapFile.ignore();
 		}
-		mapFile.close();
 	}
+	mapFile.close();
 }

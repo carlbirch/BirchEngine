@@ -17,6 +17,13 @@ auto& wall(manager.addEntity());
 
 std::vector<ColliderComponent*> Game::colliders;
 
+enum eGroups : std::size_t
+{
+	gTiles,
+	gPlayer,
+	gEnemies
+};
+
 Game::Game()
 {}
 
@@ -47,17 +54,18 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	//ecs implementation
 
-	Map::LoadMap("assets/p16x16.map", 16, 16);
+	Map::LoadMap("assets/p16x16.map", 12, 12);
 
 	player.addComponent<TransformComponent>(2);
 	player.addComponent<SpriteComponent>("assets/player.png");
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
+	player.AddGroup(gPlayer);
 
 	wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
 	wall.addComponent<SpriteComponent>("assets/dirt.png");
 	wall.addComponent<ColliderComponent>("wall");
-
+	wall.AddGroup(gTiles);
 	
 }
 
@@ -89,11 +97,27 @@ void Game::update()
 	
 }
 
+auto& tiles(manager.getGroup(gTiles));
+auto& players(manager.getGroup(gPlayer));
+auto& enemies(manager.getGroup(gEnemies));
+
 void Game::render()
 {
 	SDL_RenderClear(renderer);
 
-	manager.draw();
+	for (auto& t : tiles)
+	{
+		t->draw();
+	}
+	for (auto& p : players)
+	{
+		p->draw();
+	}
+	for (auto& e : enemies)
+	{
+		e->draw();
+	}
+
 	SDL_RenderPresent(renderer);
 }
 
@@ -109,4 +133,5 @@ void Game::AddTile(int id, int x, int y)
 	auto& tile(manager.addEntity());
 	tile.addComponent<TileComponent>(x, y, 32, 32, id);
 	tile.addComponent<ColliderComponent>("tile");
+	tile.AddGroup(gTiles);
 }

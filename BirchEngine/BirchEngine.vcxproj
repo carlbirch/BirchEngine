@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Src\Collision.cpp" />
+    <ClCompile Include="Src\ECS\ECS.cpp" />
     <ClCompile Include="Src\Game.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\Map.cpp" />
