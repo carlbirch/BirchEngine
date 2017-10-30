@@ -11,6 +11,7 @@ Manager manager;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
+float Game::deltaTime = 0;
 
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
@@ -57,7 +58,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	Map::LoadMap("assets/p16x16.map", 12, 12);
 
 	player.addComponent<TransformComponent>(2);
-	player.addComponent<SpriteComponent>("assets/player.png");
+	player.addComponent<SpriteComponent>("assets/player_idle.png", 4);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
 	player.AddGroup(gPlayer);
@@ -89,7 +90,6 @@ void Game::update()
 {
 	manager.refresh();
 	manager.update();
-
 	for (auto i : colliders)
 	{
 		Collision::AABB(player.getComponent<ColliderComponent>(), *i);
