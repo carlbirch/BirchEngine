@@ -11,7 +11,6 @@ Manager manager;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
-float Game::deltaTime = 0;
 
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());

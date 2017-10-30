@@ -25,7 +25,6 @@ public:
 	static SDL_Event event;
 	static std::vector<ColliderComponent*> Game::colliders;
 	static void AddTile(int id, int x, int y);
-	static float deltaTime;
 
 private:
 	bool isRunning = false;
