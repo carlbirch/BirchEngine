@@ -4,16 +4,6 @@
 #include "SDL.h"
 #include "../TextureManager.h"
 
-
-struct animation
-{
-	int frames;
-	int speed;
-	int length;
-	int index;
-};
-
-
 class SpriteComponent : public Component
 {
 private:
