@@ -12,17 +12,15 @@ private:
 	TransformComponent *transform;
 	SDL_Texture *texture;
 	SDL_Rect srcRect, destRect;
-
-public:
-
+	
 	bool animated = false;
 	int frames = 0;
 	int speed = 100;
 	int animIndex = 0;
 
-	std::map<const char*, Animation> mAnimations;
+public:
 
-	Animation currentAnimation;
+	std::map<const char*, Animation> mAnimations;
 
 	SpriteComponent() = default;
 	SpriteComponent(const char* path)
@@ -36,15 +34,12 @@ public:
 		
 		Animation playerIdle = Animation(0, 3, 100);
 		Animation playerWalk = Animation(1, 8, 100);
+		Animation playerRun = Animation(1, 8, 50);
 
 		mAnimations.emplace("Idle", playerIdle);
 		mAnimations.emplace("Walk", playerWalk);
 
 		Play("Idle");
-
-		frames = currentAnimation.frames;
-		speed = currentAnimation.speed;
-
 	}
 	~SpriteComponent()
 	{
@@ -89,10 +84,9 @@ public:
 
 	void Play(const char* anim_name)
 	{
-		currentAnimation = mAnimations[anim_name];
-		frames = currentAnimation.frames;
-		animIndex = currentAnimation.index;
-		speed = currentAnimation.speed;
+		frames = mAnimations[anim_name].frames;
+		animIndex = mAnimations[anim_name].index;
+		speed = mAnimations[anim_name].speed;
 	}
 
 };
