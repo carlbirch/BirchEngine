@@ -7,40 +7,47 @@
 #include <map>
 
 class SpriteComponent : public Component
+
 {
 private:
+
 	TransformComponent *transform;
 	SDL_Texture *texture;
 	SDL_Rect srcRect, destRect;
-	
+
 	bool animated = false;
 	int frames = 0;
 	int speed = 100;
-	int animIndex = 0;
 
 public:
 
-	std::map<const char*, Animation> mAnimations;
+	int animIndex = 0;
+
+	std::map<const char*, Animation> animations;
+
+	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
 	SpriteComponent() = default;
 	SpriteComponent(const char* path)
+
 	{
 		setTex(path);
 	}
-	SpriteComponent(const char* path, bool mAnimated)
+
+	SpriteComponent(const char* path, bool isAnimated)
+
 	{
-		setTex(path);
-		animated = true;
-		
-		Animation playerIdle = Animation(0, 3, 100);
-		Animation playerWalk = Animation(1, 8, 100);
-		Animation playerRun = Animation(1, 8, 50);
+		animated = isAnimated;
 
-		mAnimations.emplace("Idle", playerIdle);
-		mAnimations.emplace("Walk", playerWalk);
+		Animation idle = Animation(0, 3, 100);
+		Animation walk = Animation(1, 8, 100);
 
+		animations.emplace("Idle", idle);
+		animations.emplace("Walk", walk);
 		Play("Idle");
+		setTex(path);
 	}
+
 	~SpriteComponent()
 	{
 		SDL_DestroyTexture(texture);
@@ -52,14 +59,13 @@ public:
 	}
 
 	void init() override
-	{
 
+	{
 		transform = &entity->getComponent<TransformComponent>();
 
 		srcRect.x = srcRect.y = 0;
 		srcRect.w = transform->width;
 		srcRect.h = transform->height;
-
 	}
 
 	void update() override
@@ -77,16 +83,18 @@ public:
 		destRect.h = transform->height * transform->scale;
 	}
 
+
+
 	void draw() override
 	{
-		TextureManager::Draw(texture, srcRect, destRect);
+		TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
 	}
 
-	void Play(const char* anim_name)
+	void Play(const char* animName)
 	{
-		frames = mAnimations[anim_name].frames;
-		animIndex = mAnimations[anim_name].index;
-		speed = mAnimations[anim_name].speed;
+		frames = animations[animName].frames;
+		animIndex = animations[animName].index;
+		speed = animations[animName].speed;
 	}
 
 };

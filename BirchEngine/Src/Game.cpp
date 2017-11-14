@@ -54,9 +54,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	//ecs implementation
 
-	Map::LoadMap("assets/p16x16.map", 12, 12);
+	Map::LoadMap("assets/map.map", 25, 20);
 
-	player.addComponent<TransformComponent>(2);
+	player.addComponent<TransformComponent>(4);
 	player.addComponent<SpriteComponent>("assets/player_anims.png", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
@@ -127,10 +127,10 @@ void Game::clean()
 	SDL_Quit();
 }
 
-void Game::AddTile(int id, int x, int y)
+void Game::AddTile(int srcX, int srcY, int xpos, int ypos)
 {
 	auto& tile(manager.addEntity());
-	tile.addComponent<TileComponent>(x, y, 32, 32, id);
+	tile.addComponent<TileComponent>(srcX, srcY, xpos, ypos, "assets/terrain_ss.png");
 	tile.addComponent<ColliderComponent>("tile");
 	tile.AddGroup(gTiles);
 }
