@@ -20,7 +20,7 @@ bool Collision::AABB(const ColliderComponent& colA, const ColliderComponent& col
 {
 	if (AABB(colA.collider, colB.collider))
 	{
-		std::cout << colA.tag << " hit: " << colB.tag << std::endl;
+		//std::cout << colA.tag << " hit: " << colB.tag << std::endl;
 		return true;
 	}
 	else
