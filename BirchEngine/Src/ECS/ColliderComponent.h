@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <SDL.h>
 #include "Components.h"
@@ -11,11 +10,6 @@ public:
 	std::string tag;
 
 	TransformComponent* transform;
-
-	ColliderComponent()
-	{
-		tag = "";
-	}
 
 	ColliderComponent(std::string t)
 	{

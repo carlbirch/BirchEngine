@@ -1,7 +1,6 @@
-#pragma once 
-
+#pragma once
+#include "Components.h"
 #include "../Vector2D.h"
-#include "ECS.h"
 
 class TransformComponent : public Component
 {
@@ -17,8 +16,6 @@ public:
 
 	int speed = 3;
 
-	bool blocked = false;
-
 	TransformComponent()
 	{
 		position.Zero();
@@ -32,8 +29,7 @@ public:
 
 	TransformComponent(float x, float y)
 	{
-		position.x = x;
-		position.y = y;
+		position.Zero();
 	}
 
 	TransformComponent(float x, float y, int h, int w, int sc)

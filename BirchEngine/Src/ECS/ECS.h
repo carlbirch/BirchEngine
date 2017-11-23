@@ -1,5 +1,4 @@
-#pragma once 
-
+#pragma once
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -31,13 +30,13 @@ constexpr std::size_t maxComponents = 32;
 constexpr std::size_t maxGroups = 32;
 
 using ComponentBitSet = std::bitset<maxComponents>;
-using GroupBitSet = std::bitset<maxGroups>;
+using GroupBitset = std::bitset<maxGroups>;
 
 using ComponentArray = std::array<Component*, maxComponents>;
 
 class Component
 {
-public:
+public: 
 	Entity* entity;
 
 	virtual void init() {}
@@ -55,17 +54,16 @@ private:
 
 	ComponentArray componentArray;
 	ComponentBitSet componentBitset;
-	GroupBitSet groupBitset;
+	GroupBitset groupBitset;
 
 public:
-
 	Entity(Manager& mManager) : manager(mManager) {}
 
 	void update()
 	{
 		for (auto& c : components) c->update();
 	}
-	void draw()
+	void draw() 
 	{
 		for (auto& c : components) c->draw();
 	}
@@ -73,21 +71,20 @@ public:
 	bool isActive() const { return active; }
 	void destroy() { active = false; }
 
-	template <typename T> bool hasComponent() const
-	{
-		return componentBitset[getComponentTypeID<T>()];
-	}
-
-	bool hasGroup(Group mGroup) const noexcept
+	bool hasGroup(Group mGroup)
 	{
 		return groupBitset[mGroup];
 	}
 
-	void AddGroup(Group mGroup) noexcept;
-
-	void delGroup(Group mGroup) noexcept
+	void addGroup(Group mGroup);
+	void delGroup(Group mGroup)
 	{
 		groupBitset[mGroup] = false;
+	}
+
+	template <typename T> bool hasComponent() const
+	{
+		return componentBitset[getComponentTypeID<T>()];
 	}
 
 	template <typename T, typename... TArgs>
@@ -95,7 +92,7 @@ public:
 	{
 		T* c(new T(std::forward<TArgs>(mArgs)...));
 		c->entity = this;
-		std::unique_ptr<Component>uPtr{ c };
+		std::unique_ptr<Component>uPtr { c };
 		components.emplace_back(std::move(uPtr));
 
 		componentArray[getComponentTypeID<T>()] = c;
@@ -117,7 +114,6 @@ class Manager
 private:
 	std::vector<std::unique_ptr<Entity>> entities;
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
-
 public:
 	void update()
 	{
@@ -126,10 +122,9 @@ public:
 	void draw()
 	{
 		for (auto& e : entities) e->draw();
-	}
+	} 
 	void refresh()
 	{
-
 		for (auto i(0u); i < maxGroups; i++)
 		{
 			auto& v(groupedEntities[i]);
@@ -163,9 +158,8 @@ public:
 	Entity& addEntity()
 	{
 		Entity *e = new Entity(*this);
-		std::unique_ptr<Entity> uPtr{ e };
+		std::unique_ptr<Entity> uPtr { e };
 		entities.emplace_back(std::move(uPtr));
 		return *e;
 	}
 };
-

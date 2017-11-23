@@ -6,11 +6,10 @@
 #include "Animation.h"
 #include <map>
 
-class SpriteComponent : public Component
 
+class SpriteComponent : public Component
 {
 private:
-
 	TransformComponent *transform;
 	SDL_Texture *texture;
 	SDL_Rect srcRect, destRect;
@@ -22,20 +21,17 @@ private:
 public:
 
 	int animIndex = 0;
-
 	std::map<const char*, Animation> animations;
 
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
 	SpriteComponent() = default;
 	SpriteComponent(const char* path)
-
 	{
 		setTex(path);
 	}
 
 	SpriteComponent(const char* path, bool isAnimated)
-
 	{
 		animated = isAnimated;
 
@@ -44,7 +40,9 @@ public:
 
 		animations.emplace("Idle", idle);
 		animations.emplace("Walk", walk);
+
 		Play("Idle");
+
 		setTex(path);
 	}
 
@@ -59,8 +57,8 @@ public:
 	}
 
 	void init() override
-
 	{
+
 		transform = &entity->getComponent<TransformComponent>();
 
 		srcRect.x = srcRect.y = 0;
@@ -70,6 +68,7 @@ public:
 
 	void update() override
 	{
+
 		if (animated)
 		{
 			srcRect.x = srcRect.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
@@ -82,8 +81,6 @@ public:
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 	}
-
-
 
 	void draw() override
 	{
