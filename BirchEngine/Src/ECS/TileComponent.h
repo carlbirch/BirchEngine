@@ -25,7 +25,7 @@ public:
 
 		destRect.x = xpos;
 		destRect.y = ypos;
-		destRect.w = destRect.h = 64;
+		destRect.w = destRect.h = 32;
 
 	}
 	
