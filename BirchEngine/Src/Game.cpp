@@ -5,11 +5,14 @@
 #include "Vector2D.h"
 #include "Collision.h"
 
-Map* map;
 Manager manager;
+Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
+
+SDL_Rect Game::cameraOffset = { 0, 0, 800, 640 };
+
 
 std::vector<ColliderComponent*> Game::colliders;
 
@@ -24,16 +27,15 @@ enum groupLabels : std::size_t
 {
 	groupMap,
 	groupPlayers,
-	groupEnemies,
 	groupColliders
 };
 
 auto& tiles(manager.getGroup(groupMap));
 auto& players(manager.getGroup(groupPlayers));
-auto& enemies(manager.getGroup(groupEnemies));
 
 Game::Game()
-{}
+{
+}
 
 Game::~Game()
 {}
@@ -64,7 +66,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	Map::LoadMap("assets/map.map", 25, 20);
 
-	player.addComponent<TransformComponent>(4);
+	player.addComponent<TransformComponent>(400, 320, 4);
 	player.addComponent<SpriteComponent>("assets/player_anims.png", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
@@ -90,16 +92,20 @@ void Game::handleEvents()
 void Game::update()
 {
 	manager.refresh();
+
+	cameraOffset.x = player.getComponent<TransformComponent>().position.x - 400;
+	cameraOffset.y = player.getComponent<TransformComponent>().position.y - 320;
+
+	if (cameraOffset.x < 0)
+		cameraOffset.x = 0;
+	if (cameraOffset.y < 0)
+		cameraOffset.y = 0;
+	if (cameraOffset.x > cameraOffset.w)
+		cameraOffset.x = cameraOffset.w;
+	if (cameraOffset.y > cameraOffset.h)
+		cameraOffset.y = cameraOffset.h;
+
 	manager.update();
-
-	Vector2D pVel = player.getComponent<TransformComponent>().velocity;
-	int pSpeed = player.getComponent<TransformComponent>().speed;
-
-	for (auto t : tiles)
-	{
-		t->getComponent<TileComponent>().destRect.x += -(pVel.x * pSpeed);
-		t->getComponent<TileComponent>().destRect.y += -(pVel.y * pSpeed);
-	}
 }
 
 
@@ -114,10 +120,7 @@ void Game::render()
 	{
 		p->draw();
 	}
-	for (auto& e : enemies)
-	{
-		e->draw();
-	}
+
 	SDL_RenderPresent(renderer);
 }
 

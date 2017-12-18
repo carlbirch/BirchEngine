@@ -4,9 +4,7 @@
 
 class TransformComponent : public Component
 {
-
 public:
-	
 	Vector2D position;
 	Vector2D velocity;
 
@@ -21,24 +19,15 @@ public:
 		position.Zero();
 	}
 
-	TransformComponent(int sc)
-	{
-		position.x = 400;
-		position.y = 320;
-		scale = sc;
-	}
-
 	TransformComponent(float x, float y)
 	{
 		position.Zero();
 	}
 
-	TransformComponent(float x, float y, int h, int w, int sc)
+	TransformComponent(float x, float y, int sc)
 	{
 		position.x = x;
 		position.y = y;
-		height = h;
-		width = w;
 		scale = sc;
 	}
 
@@ -48,5 +37,7 @@ public:
 	}
 	void update() override
 	{
+		position.x += velocity.x * speed;  
+		position.y += velocity.y * speed;
 	}
 };
