@@ -156,10 +156,12 @@ public:
 	}
 
 	Entity& addEntity()
-	{
-		Entity *e = new Entity(*this);
-		std::unique_ptr<Entity> uPtr { e };
-		entities.emplace_back(std::move(uPtr));
-		return *e;
+	{		
+		//Entity *e = new Entity(*this);
+		//std::unique_ptr<Entity> uPtr { e };
+		//entities.emplace_back(std::move(uPtr));
+		//return *e;
+		auto uPtr{std::make_unique<Entity>(*this)};
+		return *entities.emplace_back(std::move(uPtr));
 	}
 };
