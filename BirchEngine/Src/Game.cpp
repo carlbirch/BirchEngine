@@ -19,7 +19,6 @@ std::vector<ColliderComponent*> Game::colliders;
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
-auto& wall(manager.addEntity());
 
 const char* mapfile = "assets/terrain_ss.png";
 
@@ -66,7 +65,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	Map::LoadMap("assets/map.map", 25, 20);
 
-	player.addComponent<TransformComponent>(400, 320, 4);
+	player.addComponent<TransformComponent>(400, 320, 32, 32, 4);
 	player.addComponent<SpriteComponent>("assets/player_anims.png", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
@@ -100,7 +99,7 @@ void Game::update()
 		cameraOffset.x = 0;
 	if (cameraOffset.y < 0)
 		cameraOffset.y = 0;
-	if (cameraOffset.x + 800 > cameraOffset.w)
+	if (cameraOffset.x > cameraOffset.w)
 		cameraOffset.x = cameraOffset.w;
 	if (cameraOffset.y > cameraOffset.h)
 		cameraOffset.y = cameraOffset.h;
