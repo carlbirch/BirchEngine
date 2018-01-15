@@ -100,7 +100,7 @@ void Game::update()
 		cameraOffset.x = 0;
 	if (cameraOffset.y < 0)
 		cameraOffset.y = 0;
-	if (cameraOffset.x > cameraOffset.w)
+	if (cameraOffset.x + 800 > cameraOffset.w)
 		cameraOffset.x = cameraOffset.w;
 	if (cameraOffset.y > cameraOffset.h)
 		cameraOffset.y = cameraOffset.h;
