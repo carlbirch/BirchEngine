@@ -4,6 +4,7 @@
 #include "../Vector2D.h"
 #include "../Game.h"
 #include "../TextureManager.h"
+#include "../AssetManager.h"
 
 class TileComponent : public Component
 {
@@ -20,7 +21,7 @@ public:
 
 	TileComponent(int srcX, int srcY, int xpos, int ypos, int tsize, int tscale, std::string id)
 	{
-		texture = Game::assets.GetTexture(id);
+		texture = Game::assets->GetTexture(id);
 		srcRect.x = srcX;
 		srcRect.y = srcY;
 		srcRect.w = srcRect.h = tsize;

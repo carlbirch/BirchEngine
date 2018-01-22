@@ -4,8 +4,8 @@
 #include "SDL_image.h"
 #include <iostream>
 #include <vector>
-#include "AssetManager.h"
 
+class AssetManager;
 class ColliderComponent;
 
 class Game
@@ -27,8 +27,7 @@ public:
 	static bool isRunning;
 	static SDL_Rect cameraOffset;
 
-	static AssetManager assets;
-
+	static AssetManager* assets;
 	enum groupLabels : std::size_t
 	{
 		groupMap,

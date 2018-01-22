@@ -27,6 +27,7 @@ public:
 	void update() override
 	{
 		distance += speed;
+		std::cout << transform->position << std::endl;
 
 		if(transform->position.x > Game::cameraOffset.x + Game::cameraOffset.w)
 		{

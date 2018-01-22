@@ -6,28 +6,29 @@
 #include "Collision.h"
 #include <sstream>
 #include <string>
-
+#include "AssetManager.h"
 
 Manager manager;
 Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
-AssetManager Game::assets;
+AssetManager* Game::assets = new AssetManager(&manager);
 
 SDL_Rect Game::cameraOffset = { 0, 0, 800, 640 };
 
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
-auto& proj(manager.addEntity());
 
 Game::Game()
 {
 }
 
 Game::~Game()
-{}
+{
+	delete assets;
+}
 
 void Game::init(const char* title, int width, int height, bool fullscreen)
 {
@@ -53,9 +54,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	//add textures to master list
 
-	assets.AddTexture("terrain_tiles", "assets/terrain_ss.png");
-	assets.AddTexture("projectile", "assets/proj_tex.png");
-	assets.AddTexture("player_anims", "assets/player_anims.png");
+	assets->AddTexture("terrain_tiles", "assets/terrain_ss.png");
+	assets->AddTexture("projectile", "assets/proj_tex.png");
+	assets->AddTexture("player_anims", "assets/player_anims.png");
 	
 
 	// terrain sprite sheet, mapscale, tilesize
@@ -71,10 +72,10 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
 
-	proj.addComponent<TransformComponent>(600.0f, 600.0f, 32, 32, 1);
-	proj.addComponent<SpriteComponent>("projectile", false);
-	proj.addGroup(groupProjectiles);
-	proj.addComponent<Projectile>(200, 1);
+	Vector2D pos = player.getComponent<TransformComponent>().position;
+	pos.x -= 200;
+	int speed = 2;
+	assets->CreateProjectile(pos, speed, "projectile");
 
 }
 auto& tiles(manager.getGroup(Game::groupMap));
@@ -116,6 +117,15 @@ void Game::update()
 		}
 	}
 
+	for (auto& p : projectiles)
+	{
+		if (Collision::AABB(player.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
+		{
+			std::cout << "player hit!" << std::endl;
+			p->destroy();
+		}
+	}
+	
 	cameraOffset.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 400);
 	cameraOffset.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 320);
 

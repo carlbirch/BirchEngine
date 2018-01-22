@@ -5,6 +5,7 @@
 #include "../TextureManager.h"
 #include "Animation.h"
 #include <map>
+#include "../AssetManager.h"
 
 class SpriteComponent : public Component
 {
@@ -52,7 +53,7 @@ public:
 
 	void setTex(std::string id)
 	{
-		texture = Game::assets.GetTexture(id);
+		texture = Game::assets->GetTexture(id);
 	}
 
 	void init() override
