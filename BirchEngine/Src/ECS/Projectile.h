@@ -29,9 +29,12 @@ public:
 		distance += speed;
 		std::cout << transform->position << std::endl;
 
-		if(transform->position.x > Game::cameraOffset.x + Game::cameraOffset.w)
+		if(transform->position.x > Game::cameraOffset.x + Game::cameraOffset.w ||
+			transform->position.x < Game::cameraOffset.x ||
+			transform->position.y > Game::cameraOffset.y + Game::cameraOffset.h ||
+			transform->position.y < Game::cameraOffset.y)
 		{
-			std::cout << "Destroyed at: " << transform->position << std::endl;
+			std::cout << "Out Of Bounds!" << std::endl;
 			entity->destroy();
 		}
 	}

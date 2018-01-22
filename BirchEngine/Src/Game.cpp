@@ -4,7 +4,6 @@
 #include "ECS/Components.h"
 #include "Vector2D.h"
 #include "Collision.h"
-#include <sstream>
 #include <string>
 #include "AssetManager.h"
 
@@ -66,14 +65,13 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	map->LoadMap("assets/map.map", 25, 20);
 
-	player.addComponent<TransformComponent>(800.0f, 640.0f, 32, 32, 4);
+	player.addComponent<TransformComponent>(800.0f, 740.0f, 32, 32, 4);
 	player.addComponent<SpriteComponent>("player_anims", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
 
 	Vector2D pos = player.getComponent<TransformComponent>().position;
-	pos.x -= 200;
 	int speed = 2;
 	assets->CreateProjectile(pos, speed, "projectile");
 
