@@ -4,18 +4,23 @@
 #include "ECS/Components.h"
 #include "Vector2D.h"
 #include "Collision.h"
+#include <sstream>
+#include <string>
+
 
 Manager manager;
 Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
+AssetManager Game::assets;
 
 SDL_Rect Game::cameraOffset = { 0, 0, 800, 640 };
 
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
+auto& proj(manager.addEntity());
 
 Game::Game()
 {
@@ -44,22 +49,38 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 		isRunning = true;
 	}
+	
+
+	//add textures to master list
+
+	assets.AddTexture("terrain_tiles", "assets/terrain_ss.png");
+	assets.AddTexture("projectile", "assets/proj_tex.png");
+	assets.AddTexture("player_anims", "assets/player_anims.png");
+	
+
 	// terrain sprite sheet, mapscale, tilesize
-	map = new Map("assets/terrain_ss.png", 3, 32);
+	map = new Map("terrain_tiles", 3, 32);
 
 	//ecs implementation
 
 	map->LoadMap("assets/map.map", 25, 20);
 
-	player.addComponent<TransformComponent>(800, 640, 32, 32, 4);
-	player.addComponent<SpriteComponent>("assets/player_anims.png", true);
+	player.addComponent<TransformComponent>(800.0f, 640.0f, 32, 32, 4);
+	player.addComponent<SpriteComponent>("player_anims", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
+
+	proj.addComponent<TransformComponent>(600.0f, 600.0f, 32, 32, 1);
+	proj.addComponent<SpriteComponent>("projectile", false);
+	proj.addGroup(groupProjectiles);
+	proj.addComponent<Projectile>(200, 1);
+
 }
 auto& tiles(manager.getGroup(Game::groupMap));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
+auto& projectiles(manager.getGroup(Game::groupProjectiles));
 
 void Game::handleEvents()
 {
@@ -79,6 +100,7 @@ void Game::handleEvents()
 
 void Game::update()
 {
+
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
 
@@ -94,8 +116,8 @@ void Game::update()
 		}
 	}
 
-	cameraOffset.x = player.getComponent<TransformComponent>().position.x - 400;
-	cameraOffset.y = player.getComponent<TransformComponent>().position.y - 320;
+	cameraOffset.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 400);
+	cameraOffset.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 320);
 
 	if (cameraOffset.x < 0)
 		cameraOffset.x = 0;
@@ -123,6 +145,11 @@ void Game::render()
 
 
 	for (auto& p : players)
+	{
+		p->draw();
+	}
+
+	for (auto& p : projectiles)
 	{
 		p->draw();
 	}

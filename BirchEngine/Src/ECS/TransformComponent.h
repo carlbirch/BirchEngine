@@ -14,8 +14,6 @@ public:
 
 	int speed = 3;
 
-	bool blocked = false;
-
 	TransformComponent()
 	{
 		position.Zero();
@@ -47,16 +45,8 @@ public:
 	}
 	void update() override
 	{
-		if (!blocked)
-		{
-			position.x += static_cast<int>(velocity.x * speed);
-			position.y += static_cast<int>(velocity.y * speed);
-		}
-		else
-		{
-			position.x += static_cast<int>(-velocity.x * speed);
-			position.y += static_cast<int>(-velocity.y * speed);
-		}
+		position.x += static_cast<int>(velocity.x * speed);
+		position.y += static_cast<int>(velocity.y * speed);
 	}
 
 };

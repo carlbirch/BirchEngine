@@ -63,7 +63,7 @@ public:
 	{
 		for (auto& c : components) c->update();
 	}
-	void draw() 
+	void draw()
 	{
 		for (auto& c : components) c->draw();
 	}
