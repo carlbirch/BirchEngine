@@ -11,7 +11,8 @@ public:
 	AssetManager(Manager* man);
 	~AssetManager();
 
-	void CreateProjectile(Vector2D pos, int sp, std::string id);
+	void CreateProjectile(Vector2D pos, int rng, int sp, std::string id);
+
 	void AddTexture(std::string id, const char* path);
 	SDL_Texture* GetTexture(std::string id);
 

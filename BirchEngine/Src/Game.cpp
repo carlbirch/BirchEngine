@@ -26,7 +26,6 @@ Game::Game()
 
 Game::~Game()
 {
-	delete assets;
 }
 
 void Game::init(const char* title, int width, int height, bool fullscreen)
@@ -70,12 +69,16 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
 	player.addGroup(groupPlayers);
+	
+	assets->CreateProjectile(Vector2D(500, 740), 200, 2, "projectile");
+	assets->CreateProjectile(Vector2D(500, 840), 200, 2, "projectile");
+	assets->CreateProjectile(Vector2D(500, 940), 200, 2, "projectile");
+	assets->CreateProjectile(Vector2D(500, 1040), 200, 2, "projectile");
+	assets->CreateProjectile(Vector2D(500, 640), 1000, 2, "projectile");
 
-	Vector2D pos = player.getComponent<TransformComponent>().position;
-	int speed = 2;
-	assets->CreateProjectile(pos, speed, "projectile");
 
 }
+
 auto& tiles(manager.getGroup(Game::groupMap));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
@@ -119,7 +122,7 @@ void Game::update()
 	{
 		if (Collision::AABB(player.getComponent<ColliderComponent>().collider, p->getComponent<ColliderComponent>().collider))
 		{
-			std::cout << "player hit!" << std::endl;
+			std::cout << "Player Hit" << std::endl;
 			p->destroy();
 		}
 	}
@@ -167,6 +170,7 @@ void Game::render()
 
 void Game::clean()
 {
+	delete assets;
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();

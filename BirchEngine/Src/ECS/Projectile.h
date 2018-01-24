@@ -14,27 +14,25 @@ public:
 
 	TransformComponent* transform;
 	SpriteComponent* sprite;
-	ColliderComponent* collider;
 
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
 		sprite = &entity->getComponent<SpriteComponent>();
-		collider = &entity->getComponent<ColliderComponent>();
 		transform->velocity.x = static_cast<float>(speed);
 	}
 
 	void update() override
 	{
 		distance += speed;
-		std::cout << transform->position << std::endl;
-
-		if(transform->position.x > Game::cameraOffset.x + Game::cameraOffset.w ||
-			transform->position.x < Game::cameraOffset.x ||
-			transform->position.y > Game::cameraOffset.y + Game::cameraOffset.h ||
-			transform->position.y < Game::cameraOffset.y)
+		if (distance > range)
 		{
-			std::cout << "Out Of Bounds!" << std::endl;
+			std::cout << "Max Range" << std::endl;
+			entity->destroy();
+		} 
+		else if (transform->position.x > Game::cameraOffset.x + Game::cameraOffset.w)
+		{
+			std::cout << "Out Of Bounds" << std::endl;
 			entity->destroy();
 		}
 	}

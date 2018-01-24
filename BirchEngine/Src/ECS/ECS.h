@@ -77,7 +77,7 @@ public:
 	}
 
 	void addGroup(Group mGroup);
-	void delGroup(Group mGroup)
+	void delGroup(Group mGroup) noexcept
 	{
 		groupBitset[mGroup] = false;
 	}
@@ -125,7 +125,7 @@ public:
 	} 
 	void refresh()
 	{
-		for (auto i(0u); i < maxGroups; i++)
+		for (auto i(0u); i < maxGroups; ++i)
 		{
 			auto& v(groupedEntities[i]);
 			v.erase(

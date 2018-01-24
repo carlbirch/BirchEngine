@@ -42,13 +42,12 @@ public:
 		animations.emplace("Walk", walk);
 
 		Play("Idle");
-
+		
 		setTex(id);
 	}
 
 	~SpriteComponent()
 	{
-		SDL_DestroyTexture(texture);
 	}
 
 	void setTex(std::string id)
