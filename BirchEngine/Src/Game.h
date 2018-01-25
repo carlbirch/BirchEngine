@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 
-class AssetManager;
 class ColliderComponent;
 
 class Game
@@ -21,20 +20,17 @@ public:
 	bool running() { return isRunning; }
 	void render();
 	void clean();
-
 	
 	static SDL_Renderer *renderer;
 	static SDL_Event event;
 	static bool isRunning;
-
-	static AssetManager* assets;
+	static SDL_Rect camera;
 
 	enum groupLabels : std::size_t
 	{
 		groupMap,
 		groupPlayers,
-		groupColliders,
-		groupProjectiles
+		groupColliders
 	};
 
 private:

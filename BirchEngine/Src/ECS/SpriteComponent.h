@@ -26,12 +26,12 @@ public:
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
 	SpriteComponent() = default;
-	SpriteComponent(std::string id)
+	SpriteComponent(const char* path)
 	{
-		setTex(id);
+		setTex(path);
 	}
 
-	SpriteComponent(std::string id, bool isAnimated)
+	SpriteComponent(const char* path, bool isAnimated)
 	{
 		animated = isAnimated;
 
@@ -43,16 +43,17 @@ public:
 
 		Play("Idle");
 
-		setTex(id);
+		setTex(path);
 	}
 
 	~SpriteComponent()
 	{
+		SDL_DestroyTexture(texture);
 	}
 
-	void setTex(std::string id)
+	void setTex(const char* path)
 	{
-		texture = Game::assets->GetTexture(id);
+		texture = TextureManager::LoadTexture(path);
 	}
 
 	void init() override
