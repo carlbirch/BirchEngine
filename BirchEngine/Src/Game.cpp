@@ -49,7 +49,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	map->LoadMap("assets/map.map", 25, 20);
 
-	player.addComponent<TransformComponent>(800, 640, 32 , 32, 4);
+	player.addComponent<TransformComponent>(800.0f, 640.0f, 32 , 32, 4);
 	player.addComponent<SpriteComponent>("assets/player_anims.png", true);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player");
@@ -82,7 +82,6 @@ void Game::update()
 
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
-
 	manager.refresh();
 	manager.update();
 
@@ -95,8 +94,8 @@ void Game::update()
 		}
 	}
 
-	camera.x = player.getComponent<TransformComponent>().position.x - 400;
-	camera.y = player.getComponent<TransformComponent>().position.y - 320;
+	camera.x = static_cast<int>(player.getComponent<TransformComponent>().position.x - 400);
+	camera.y = static_cast<int>(player.getComponent<TransformComponent>().position.y - 320);
 
 	if (camera.x < 0)
 		camera.x = 0;

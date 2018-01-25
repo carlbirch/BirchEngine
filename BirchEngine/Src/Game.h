@@ -20,7 +20,7 @@ public:
 	bool running() { return isRunning; }
 	void render();
 	void clean();
-	
+
 	static SDL_Renderer *renderer;
 	static SDL_Event event;
 	static bool isRunning;
@@ -30,11 +30,11 @@ public:
 	{
 		groupMap,
 		groupPlayers,
-		groupColliders
+		groupColliders,
 	};
 
 private:
-	
+
 	int cnt = 0;
 	SDL_Window *window;
 };

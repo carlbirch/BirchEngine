@@ -5,12 +5,12 @@
 #include "../TextureManager.h"
 #include "Animation.h"
 #include <map>
-#include "../AssetManager.h"
+
 
 class SpriteComponent : public Component
 {
 private:
-	TransformComponent *transform;
+	TransformComponent * transform;
 	SDL_Texture *texture;
 	SDL_Rect srcRect, destRect;
 
@@ -76,8 +76,8 @@ public:
 
 		srcRect.y = animIndex * transform->height;
 
-		destRect.x = static_cast<int>(transform->position.x);
-		destRect.y = static_cast<int>(transform->position.y);
+		destRect.x = static_cast<int>(transform->position.x - Game::camera.x);
+		destRect.y = static_cast<int>(transform->position.y - Game::camera.y);
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 	}
