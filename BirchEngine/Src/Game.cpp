@@ -4,8 +4,8 @@
 #include "ECS/Components.h"
 #include "Vector2D.h"
 #include "Collision.h"
-#include <string>
 #include "AssetManager.h"
+#include <sstream>
 
 Manager manager;
 Map* map;
@@ -19,6 +19,9 @@ SDL_Rect Game::cameraOffset = { 0, 0, 800, 640 };
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());
+auto& ui(manager.addEntity());
+
+SDL_Color white = { 255, 255, 255, 255 };
 
 Game::Game()
 {
@@ -48,8 +51,12 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 		isRunning = true;
 	}
-	
 
+	if (TTF_Init() == -1)
+	{
+		std::cout << "TTF Not initialised! " << std::endl;
+	}
+	
 	//add textures to master list
 
 	assets->AddTexture("terrain_tiles", "assets/terrain_ss.png");
@@ -76,6 +83,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	assets->CreateProjectile(Vector2D(500, 1040), 200, 2, "projectile");
 	assets->CreateProjectile(Vector2D(500, 640), 1000, 2, "projectile");
 
+	assets->AddFont("arial12", "assets/arial.ttf", 12);
+
+	ui.addComponent<UILabel>(5, 5, "Text", "arial12", white);
 
 }
 
@@ -102,9 +112,14 @@ void Game::handleEvents()
 
 void Game::update()
 {
+	
+	
 
 	SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
 	Vector2D playerPos = player.getComponent<TransformComponent>().position;
+	std::stringstream ss;
+	ss << "Player Pos: " << playerPos;
+	ui.getComponent<UILabel>().SetLabel(ss.str(), "arial12");
 
 	manager.refresh();
 	manager.update();
@@ -165,6 +180,8 @@ void Game::render()
 		p->draw();
 	}
 
+	ui.draw();
+
 	SDL_RenderPresent(renderer);
 }
 
@@ -173,5 +190,7 @@ void Game::clean()
 	delete assets;
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 }
