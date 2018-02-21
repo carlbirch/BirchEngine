@@ -6,6 +6,7 @@
 #include "Animation.h"
 #include <map>
 #include "../AssetManager.h"
+#include <cstring>
 
 class SpriteComponent : public Component
 {
@@ -18,10 +19,18 @@ private:
 	int frames = 0;
 	int speed = 100;
 
+        struct StringCompare
+        {
+            bool operator()(const char *a, const char *b)
+            {
+                return std::strcmp(a, b) < 0;
+            }
+        };
+    
 public:
 
 	int animIndex = 0;
-	std::map<const char*, Animation> animations;
+        std::map<const char*, Animation, StringCompare> animations;
 
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
