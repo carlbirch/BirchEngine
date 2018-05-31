@@ -5,12 +5,12 @@
 #include "../TextureManager.h"
 #include "Animation.h"
 #include <map>
-
+#include "../AssetManager.h"
 
 class SpriteComponent : public Component
 {
 private:
-	TransformComponent *transform;
+	TransformComponent * transform;
 	SDL_Texture *texture;
 	SDL_Rect srcRect, destRect;
 
@@ -26,12 +26,12 @@ public:
 	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
 	SpriteComponent() = default;
-	SpriteComponent(const char* path)
+	SpriteComponent(std::string id)
 	{
-		setTex(path);
+		setTex(id);
 	}
 
-	SpriteComponent(const char* path, bool isAnimated)
+	SpriteComponent(std::string id, bool isAnimated)
 	{
 		animated = isAnimated;
 
@@ -43,17 +43,16 @@ public:
 
 		Play("Idle");
 
-		setTex(path);
+		setTex(id);
 	}
 
 	~SpriteComponent()
 	{
-		SDL_DestroyTexture(texture);
 	}
 
-	void setTex(const char* path)
+	void setTex(std::string id)
 	{
-		texture = TextureManager::LoadTexture(path);
+		texture = Game::assets->GetTexture(id);
 	}
 
 	void init() override
@@ -76,8 +75,8 @@ public:
 
 		srcRect.y = animIndex * transform->height;
 
-		destRect.x = static_cast<int>(transform->position.x) - Game::camera.x;
-		destRect.y = static_cast<int>(transform->position.y) - Game::camera.y;
+		destRect.x = static_cast<int>(transform->position.x - Game::camera.x);
+		destRect.y = static_cast<int>(transform->position.y - Game::camera.y);
 		destRect.w = transform->width * transform->scale;
 		destRect.h = transform->height * transform->scale;
 	}

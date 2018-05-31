@@ -4,9 +4,7 @@
 
 class TransformComponent : public Component
 {
-
 public:
-	
 	Vector2D position;
 	Vector2D velocity;
 
@@ -15,6 +13,8 @@ public:
 	int scale = 1;
 
 	int speed = 3;
+
+	bool blocked = false;
 
 	TransformComponent()
 	{
@@ -38,17 +38,17 @@ public:
 		position.y = y;
 		height = h;
 		width = w;
-		scale = sc;	
+		scale = sc;
 	}
 
 	void init() override
 	{
 		velocity.Zero();
 	}
-
 	void update() override
 	{
-		position.x += velocity.x * speed;
-		position.y += velocity.y * speed;
+		position.x += static_cast<int>(velocity.x * speed);
+		position.y += static_cast<int>(velocity.y * speed);
 	}
+
 };
