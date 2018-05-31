@@ -1,0 +1,14 @@
+set(target_name SDL2_ttf)
+
+add_library(${target_name} STATIC
+    SDL_ttf.c
+)
+
+target_include_directories(${target_name} PUBLIC
+    .
+)
+
+target_link_libraries(${target_name}
+    freetype
+    SDL2-static
+)
