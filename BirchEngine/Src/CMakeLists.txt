@@ -1,6 +1,8 @@
 set(target_name BirchEngine)
 
 set(src_files
+    AssetManager.cpp
+    AssetManager.h
     Collision.h
     Collision.cpp
     Game.cpp
@@ -20,9 +22,11 @@ set(ecs_files
     ECS/ECS.cpp
     ECS/ECS.h
     ECS/KeyboardController.h
+    ECS/ProjectileComponent.h
     ECS/SpriteComponent.h
     ECS/TileComponent.h
     ECS/TransformComponent.h
+    ECS/UILabel.h
 )
 add_executable(${target_name}
     ${src_files}
@@ -39,6 +43,7 @@ target_link_libraries(${target_name}
     SDL2-static
     SDL2main
     SDL2_image
+    SDL2_ttf
 )
 
 include(../../copy_files_to_binary_dir.cmake)

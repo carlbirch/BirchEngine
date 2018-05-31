@@ -45,6 +45,8 @@ set(zlib_version 1.2.11)
 set(zlib_path ${CMAKE_BINARY_DIR}/3rdparty/zlib/zlib-${zlib_version})
 add_subdirectory(zlib)
 
+add_subdirectory(freetype)
 add_subdirectory(libpng)
 add_subdirectory(SDL2)
 add_subdirectory(SDL2_image)
+add_subdirectory(SDL2_ttf)
