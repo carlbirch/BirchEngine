@@ -32,7 +32,6 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
 			int srcY = (srcIndex / 10) * tileSize;
 			int srcX = (srcIndex % 10) * tileSize;
 			AddTile(srcX, srcY, x * scaledSize, y * scaledSize);
-			//skip comma
 			mapFile.ignore()
 		}
 	}
