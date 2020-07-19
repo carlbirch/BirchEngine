@@ -20,6 +20,8 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
 	char c;
 	std::fstream mapFile;
         std::string str;
+	
+	
 	mapFile.open(path);
 
 	for (int y = 0; y < sizeY; y++)
@@ -32,7 +34,7 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
 			int srcY = (srcIndex / 10) * tileSize;
 			int srcX = (srcIndex % 10) * tileSize;
 			AddTile(srcX, srcY, x * scaledSize, y * scaledSize);
-			mapFile.ignore()
+			mapFile.ignore();
 		}
 	}
 
