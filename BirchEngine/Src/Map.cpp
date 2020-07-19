@@ -19,18 +19,20 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
 {
 	char c;
 	std::fstream mapFile;
+        std::string str;
+	
+	
 	mapFile.open(path);
-
-	int srcX, srcY;
 
 	for (int y = 0; y < sizeY; y++)
 	{
 		for (int x = 0; x < sizeX; x++)
 		{
-			mapFile.get(c);
-			srcY = atoi(&c) * tileSize;
-			mapFile.get(c);
-			srcX = atoi(&c) * tileSize;
+			//It's y, x. so 13 is y=1, x=3
+			getline(mapFile, str, ',');
+			int srcIndex = stoi(str);
+			int srcY = (srcIndex / 10) * tileSize;
+			int srcX = (srcIndex % 10) * tileSize;
 			AddTile(srcX, srcY, x * scaledSize, y * scaledSize);
 			mapFile.ignore();
 		}
